@@ -1,0 +1,11 @@
+## Example template
+
+This is README.base.
+
+<%block name="content">
+Content intended to be replaced.
+</%block>
+
+End of README.base
+
+<%include file="README.extra" />
