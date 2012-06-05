@@ -1,9 +1,13 @@
-# Example site configuration file
+# Example _site_config.py configuration file for pyderweb
 
-name = "Example Web Site"
+# Files to process
+process = [ "*.html", "*.txt" ]
 
-# Files and directories not to process
-skip = [ "_*", ".*", "*~" ]
+# Files to copy without processing
+copy = [ "*.php", "*.css", "*.asc", "*.jpg", "*.ico" ]
+
+# Directories to skip
+dirs_to_skip = [ "_*" ]
 
 # Where site templates are stored
 site_template_dir = "_templates"

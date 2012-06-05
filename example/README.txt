@@ -2,11 +2,11 @@
 
 <%
 # All files are processed by mako, and his is python code
-name = config["name"].upper()
+name = "World's Greatest Example"
 %>
 
 <%block name="content">
 This is an example website.
 
-End of README for ${config["name"]}.
+End of README for "${name}".
 </%block>
