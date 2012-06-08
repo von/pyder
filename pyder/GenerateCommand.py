@@ -73,17 +73,19 @@ class GenerateCommand(CommandBase):
         If config is given, configuration is added to a copy of it and
         returned."""
         config = config.copy() if config else {}
-        if os.path.exists(config_filename):
-            self.debug(
-                "Processing configuration file \"{}\"".format(config_filename))
-            try:
-                # We pass config as locals so it doesn't get filled up
-                # with python stuff.
-                execfile(config_filename, {}, config)
-            except Exception as ex:
-                self.warning(
-                    "Error processing configuration \"{}\": {}".format(
-                        config_filename, str(ex)))
+        if not os.path.exists(config_filename):
+            raise IOError("Configuration file \"{}\" does not exist"
+                          "".format(config_filename))
+        self.debug(
+            "Processing configuration file \"{}\"".format(config_filename))
+        try:
+            # We pass config as locals so it doesn't get filled up
+            # with python stuff.
+            execfile(config_filename, {}, config)
+        except Exception as ex:
+            self.warning(
+                "Error processing configuration \"{}\": {}".format(
+                    config_filename, str(ex)))
         return config
 
     def _check_output_directory(self, filename):
