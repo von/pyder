@@ -45,8 +45,9 @@ class GenerateCommand(CommandBase):
         """Process given directory."""
         self.debug("Processing directory \"{}\"".format(dirname))
         dir_config_file = os.path.join(dirname, "_config.py")
-        self.dir_config = self.process_config_file(dir_config_file,
-                                                   self.site_config)
+        if os.path.exists(dir_config_file):
+            self.dir_config = self.process_config_file(dir_config_file,
+                                                       self.site_config)
         for filename in filenames:
             if self.should_process(filename):
                 self.process_file(dirname, filename)
