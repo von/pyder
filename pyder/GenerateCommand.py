@@ -112,7 +112,7 @@ class GenerateCommand(CommandBase):
                        self.site_config["process"]))
 
     def should_copy(self, filename):
-        """Should the given file be processed, based on 'process'?"""
+        """Should the given file be processed, based on 'copy'?"""
         return any(map(lambda pattern: fnmatch.fnmatch(filename, pattern),
                        self.site_config["copy"]))
 
