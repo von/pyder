@@ -26,11 +26,15 @@ Example portion of *_site_config.py*:
 
     # Files to process
     process = [ "*.html", "*.txt" ]
-    
+
     # Files to copy without processing
     copy = [ "*.php", "*.css", "*.asc", "*.jpg", "*.ico" ]
 
-The *process* and *copy* lists are lists of globs.
+    # Files to rename while copying
+    rename = { "current" : "new" }
+
+The *process* and *copy* lists are lists of globs. The *rename* list
+is a dictionary mapping current names to new names.
 
 Typically you will create a *_templates* directory to hold your Mako
 templates. You specify this with the *site_template_dir* variable in

@@ -6,6 +6,9 @@ process = [ "*.html", "*.txt" ]
 # Files to copy without processing
 copy = [ "*.php", "*.css", "*.asc", "*.jpg", "*.ico" ]
 
+# Files to rename when copying
+rename = { "current_name" : "new_name" }
+
 # Directories to skip
 dirs_to_skip = [ "_*" ]
 

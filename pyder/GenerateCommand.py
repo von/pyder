@@ -53,6 +53,8 @@ class GenerateCommand(CommandBase):
                 self.process_file(dirname, filename)
             elif self.should_copy(filename):
                 self.copy_file(dirname, filename)
+            elif self.should_rename(filename):
+                self.rename_file(dirname, filename)
 
     def process_file(self, dirname, filename):
         """Process given file."""
@@ -64,6 +66,15 @@ class GenerateCommand(CommandBase):
         """Copy file without processing it"""
         in_filepath = os.path.join(dirname, filename)
         out_filepath = os.path.join(self.dest_dir, dirname, filename)
+        self.debug("Copying {} to {}".format(in_filepath, out_filepath))
+        self._check_output_directory(out_filepath)
+        shutil.copyfile(in_filepath, out_filepath)
+
+    def rename_file(self, dirname, filename):
+        """Copy file without processing it"""
+        in_filepath = os.path.join(dirname, filename)
+        new_name = self.site_config["rename"][filename]
+        out_filepath = os.path.join(self.dest_dir, dirname, new_name)
         self.debug("Copying {} to {}".format(in_filepath, out_filepath))
         self._check_output_directory(out_filepath)
         shutil.copyfile(in_filepath, out_filepath)
@@ -104,6 +115,11 @@ class GenerateCommand(CommandBase):
         """Should the given file be processed, based on 'process'?"""
         return any(map(lambda pattern: fnmatch.fnmatch(filename, pattern),
                        self.site_config["copy"]))
+
+    def should_rename(self, filename):
+        """Should the given file be rename, based on 'rename'?"""
+        return any(map(lambda rename: filename == rename,
+                       self.site_config["rename"].keys()))
 
     def _filter_dirs(self, dirnames):
         """Given a list of directory names, filter it in place.
