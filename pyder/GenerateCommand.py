@@ -108,16 +108,22 @@ class GenerateCommand(CommandBase):
 
     def should_process(self, filename):
         """Should the given file be processed, based on 'process'?"""
+        if not self.site_config.has_key("process"):
+            return False
         return any(map(lambda pattern: fnmatch.fnmatch(filename, pattern),
                        self.site_config["process"]))
 
     def should_copy(self, filename):
         """Should the given file be processed, based on 'copy'?"""
+        if not self.site_config.has_key("copy"):
+            return False
         return any(map(lambda pattern: fnmatch.fnmatch(filename, pattern),
                        self.site_config["copy"]))
 
     def should_rename(self, filename):
         """Should the given file be rename, based on 'rename'?"""
+        if not self.site_config.has_key("rename"):
+            return False
         return any(map(lambda rename: filename == rename,
                        self.site_config["rename"].keys()))
 
