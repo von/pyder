@@ -1,1 +1,4 @@
 pyder.egg-info/*
+build/*
+dist/*
+
