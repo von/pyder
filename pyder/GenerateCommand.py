@@ -14,6 +14,9 @@ class GenerateCommand(CommandBase):
 
     _name = "generate"
 
+    # Error flag
+    _error = False
+
     def __init__(self, args):
         super(GenerateCommand, self).__init__(args)
         self.dest_dir = os.path.abspath(self.args.dest_dir)
@@ -35,6 +38,7 @@ class GenerateCommand(CommandBase):
         for dirname, subdirs, filenames in os.walk("."):
             self._filter_dirs(subdirs)  # Filters in place
             self.process_dir(dirname, filenames)
+        return 1 if self._error else 0
 
     def handle_exception(self, ex):
         """Handle exceptions, particularly from Mako"""
@@ -60,7 +64,12 @@ class GenerateCommand(CommandBase):
         """Process given file."""
         in_filepath = os.path.join(dirname, filename)
         self.debug("Processing {}".format(in_filepath))
-        self.processor.process_file(in_filepath)
+        try:
+            self.processor.process_file(in_filepath)
+        except Exception as e:
+            self.output("Exception processing {}: {}".format(in_filepath,
+                                                             str(e)))
+            self._error = True
 
     def copy_file(self, dirname, filename):
         """Copy file without processing it"""
