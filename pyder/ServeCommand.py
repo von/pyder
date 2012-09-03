@@ -13,13 +13,13 @@ class ServeCommand(CommandBase):
     _name = "serve"
 
     def run(self):
-        self.debug("Serving website from {} on port {}".format(
+        self.output("Serving website from {} on port {}".format(
                 self.args.dest_dir,
                 self.args.port))
         os.chdir(self.args.dest_dir)
         handler = SimpleHTTPServer.SimpleHTTPRequestHandler
-        SocketServer.allow_reuse_address = True
         server = SocketServer.TCPServer(("", self.args.port), handler)
+        server.allow_reuse_address = True
         server.serve_forever()
 
     @classmethod
