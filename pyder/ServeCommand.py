@@ -18,8 +18,10 @@ class ServeCommand(CommandBase):
                 self.args.port))
         os.chdir(self.args.dest_dir)
         handler = SimpleHTTPServer.SimpleHTTPRequestHandler
+        # Allow quick reuse of port.
+        # Kudos: http://stackoverflow.com/a/3137792/197789x
+        SocketServer.TCPServer.allow_reuse_address = True
         server = SocketServer.TCPServer(("", self.args.port), handler)
-        server.allow_reuse_address = True
         server.serve_forever()
 
     @classmethod
