@@ -14,3 +14,9 @@ dirs_to_skip = [ "_*" ]
 
 # Where site templates are stored
 site_template_dir = "_templates"
+
+# Extra variables to substitute in scripts
+variables = {
+    "admin_name" : "J. Webmaster",
+    "admin_email" : "admin@example.com",
+    }

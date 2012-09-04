@@ -26,9 +26,12 @@ class GenerateCommand(CommandBase):
             os.path.join(self.args.source_dir,
                          self.site_config["site_template_dir"]))
         self.debug("Template directory is {}".format(template_dir))
+        variables = self.site_config["variables"] \
+            if self.site_config.has_key("variables") else {}
         self.processor = TemplateProcessor(
             output_base=self.dest_dir,
-            template_dirs=[template_dir])
+            template_dirs=[template_dir],
+            variables=variables)
 
     def run(self):
         """Generate website."""
@@ -66,7 +69,7 @@ class GenerateCommand(CommandBase):
         self.debug("Processing {}".format(in_filepath))
         try:
             self.processor.process_file(in_filepath)
-        except Exception as e:
+        except mako.exceptions.MakoException as e:
             self.output("Exception processing {}: {}".format(in_filepath,
                                                              str(e)))
             self._error = True

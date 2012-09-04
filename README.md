@@ -43,12 +43,19 @@ templates. You specify this with the *site_template_dir* variable in
     # Where site templates are stored
     site_template_dir = "_templates"
 
-Finally, you can specify directories to be ignored using
+You can specify directories to be ignored using
 *dirs_to_skip*:
 
     # Directories to skip
     dirs_to_skip = [ "_*" ]
 
+You can specify extra variables to subsitute in your templates using
+*variables*:
+
+    variables = {
+        "myname" : "J. Webmaster",
+        "email" : "webmaster@example.com",
+        }
 
 ## The pyderweb script ###
 

@@ -9,13 +9,15 @@ from mako.lookup import TemplateLookup
 class TemplateProcessor(object):
     """Wrapper around Mako to proecess templates"""
 
-    def __init__(self, output_base, template_dirs):
+    def __init__(self, output_base, template_dirs, variables):
 	"""Initial TemplateProcessor
 
 	output_base is path to base of output directory.
-	template_dirs is list of directories to search for templates."""
+	template_dirs is list of directories to search for templates.
+        variables is a dictionary of extra variables to substitute."""
 	self.output_base = output_base
 	self.template_dirs = template_dirs
+        self.variables = variables
 
     def process_file(self, path):
 	"""Process the given file"""
@@ -36,6 +38,7 @@ class TemplateProcessor(object):
 	    "filename" : os.path.basename(url_path),
 	    "relative_url" : url_path
 	    }
+        substitutions.update(self.variables)
 	output = template.render(**substitutions)
 	self._write_out_file(out_filepath, output)
 
