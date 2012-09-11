@@ -6,6 +6,8 @@ import os.path
 from mako.template import Template
 from mako.lookup import TemplateLookup
 
+import markdown
+
 class TemplateProcessor(object):
     """Wrapper around Mako to proecess templates"""
 
@@ -40,6 +42,10 @@ class TemplateProcessor(object):
 	    }
         substitutions.update(self.variables)
 	output = template.render(**substitutions)
+        # Handle Markdown files with .md extension
+        if os.path.splitext(filename)[1] == ".md":
+            output = markdown.markdown(output)
+            out_filepath=os.path.splitext(out_filepath)[0] + ".html"
 	self._write_out_file(out_filepath, output)
 
     def _write_out_file(self, filename, contents):

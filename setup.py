@@ -14,4 +14,6 @@ setup(
     author_email = "von@vwelch.com",
     description = "A python/mako static website builder",
     license = "Apache2",
+
+    install_requires = [ "Markdown" ],
 )

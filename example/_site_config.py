@@ -1,7 +1,7 @@
 # Example _site_config.py configuration file for pyderweb
 
 # Files to process
-process = [ "*.html", "*.txt" ]
+process = [ "*.html", "*.txt", "*.md" ]
 
 # Files to copy without processing
 copy = [ "*.php", "*.css", "*.asc", "*.jpg", "*.ico" ]

@@ -3,7 +3,8 @@ pyder - Python/Mako static website generate
 
 [Pyder](https://github.com/von/pyder) is a simple Python and
 [Mako](http://www.makotemplates.org/) based static website generator
-(a "python spider").
+(a "python spider"). It supports processing files with
+[Markdown](http://daringfireball.net/projects/markdown/).
 
 Pyder is "simple" which means it does exactly what I want, how I want
 it. Maybe you will find it the same; if not, there are a number of
@@ -25,7 +26,7 @@ files should be processed by Mako.
 Example portion of *_site_config.py*:
 
     # Files to process
-    process = [ "*.html", "*.txt" ]
+    process = [ "*.html", "*.txt", "*.md" ]
 
     # Files to copy without processing
     copy = [ "*.php", "*.css", "*.asc", "*.jpg", "*.ico" ]
@@ -71,6 +72,15 @@ The script to convert your templates to the final product is
     pyderweb serve <output directory>
 
 Will serve the website on localhost:8000 for testing.
+
+## Markdown Support ##
+
+Any files with a `.md` extension will be processed with
+[Python Markdown](http://freewisdom.org/projects/python-markdown/)
+resulting in a `.html` file.
+
+Note that `_site_config.py` must include `*.md` in the `process` array
+for `.md` files to be processed.
 
 ## Example ##
 
