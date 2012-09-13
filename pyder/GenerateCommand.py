@@ -38,7 +38,7 @@ class GenerateCommand(CommandBase):
         self.debug("Parsing source starting at \"{}\"".format(
                 self.args.source_dir))
         os.chdir(self.args.source_dir)
-        for dirname, subdirs, filenames in os.walk("."):
+        for dirname, subdirs, filenames in os.walk(".", followlinks=True):
             self._filter_dirs(subdirs)  # Filters in place
             self.process_dir(dirname, filenames)
         return 1 if self._error else 0
