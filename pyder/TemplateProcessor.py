@@ -31,6 +31,13 @@ class TemplateProcessor(object):
 	template_lookup = TemplateLookup(directories=template_dirs)
 	with open(path) as template_file:
 	    template_string = "".join(template_file.readlines())
+        # Handle Markdown files with .md extension
+        # Do this before processing mako to avoid Markdown doing
+        # weird things to html.
+        if os.path.splitext(filename)[1] == ".md":
+            template_string = markdown.markdown(template_string)
+            out_filepath=os.path.splitext(out_filepath)[0] + ".html"
+        # Process template
 	template = Template(template_string, lookup=template_lookup)
 	url_path = os.path.join(dirname, filename)
 	if url_path.startswith("."):
@@ -42,10 +49,6 @@ class TemplateProcessor(object):
 	    }
         substitutions.update(self.variables)
 	output = template.render(**substitutions)
-        # Handle Markdown files with .md extension
-        if os.path.splitext(filename)[1] == ".md":
-            output = markdown.markdown(output)
-            out_filepath=os.path.splitext(out_filepath)[0] + ".html"
 	self._write_out_file(out_filepath, output)
 
     def _write_out_file(self, filename, contents):
