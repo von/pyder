@@ -20,6 +20,7 @@ class GenerateCommand(CommandBase):
     def __init__(self, args):
         super(GenerateCommand, self).__init__(args)
         self.dest_dir = os.path.abspath(self.args.dest_dir)
+        self.base_url = self.args.base_url
         self.site_config = self.process_config_file(
             os.path.join(self.args.source_dir, self.args.site_config))
         template_dir = os.path.abspath(
@@ -28,6 +29,7 @@ class GenerateCommand(CommandBase):
         self.debug("Template directory is {}".format(template_dir))
         variables = self.site_config["variables"] \
             if self.site_config.has_key("variables") else {}
+        variables['base_url'] = self.base_url
         self.processor = TemplateProcessor(
             output_base=self.dest_dir,
             template_dirs=[template_dir],
@@ -153,6 +155,9 @@ class GenerateCommand(CommandBase):
 
     @classmethod
     def add_arguments(cls, parser):
+        parser.add_argument("-b", "--base_url",
+                            default="http://localhost/",
+                            help="Specify base URL", metavar="URL")
         parser.add_argument("-c", "--site_config",
                             default="_site_config.py",
                             help="configuration file", metavar="FILENAME")
