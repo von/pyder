@@ -15,5 +15,8 @@ setup(
     description = "A python/mako static website builder",
     license = "Apache2",
 
-    install_requires = [ "Markdown" ],
+    install_requires = [
+        "Markdown",
+        'mako >= 0.7.0', # May work with earlier version
+    ],
 )
