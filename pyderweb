@@ -16,16 +16,16 @@ from pyder import ServeCommand
 def parse_args(argv):
     """Parse commandline arguments returns args object."""
     parser = argparse.ArgumentParser(
-	# print script description with -h/--help
-	description=__doc__,
-	formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-	)
+        # print script description with -h/--help
+        description=__doc__,
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument("-d", "--debug",
-			dest="debug", action='store_const', const=True,
-			help="Turn on debugging")
+                        dest="debug", action='store_const', const=True,
+                        help="Turn on debugging")
 
     subparsers = parser.add_subparsers(title="Commands",
-				       description="valid commands")
+                                       description="valid commands")
 
     CommandBase.add_subparsers(subparsers)
 
@@ -38,7 +38,7 @@ def main(argv=None):
     # Do argv default this way, as doing it in the functional
     # declaration sets it at compile time.
     if argv is None:
-	argv = sys.argv
+        argv = sys.argv
 
     args = parse_args(argv)
 
