@@ -28,7 +28,9 @@ class TemplateProcessor(object):
 	out_filepath = os.path.join(self.output_base, dirname, filename)
 	template_dirs = self.template_dirs[:]
 	template_dirs.append(dirname)
-	template_lookup = TemplateLookup(directories=template_dirs)
+	template_lookup = TemplateLookup(directories=template_dirs,
+                                  input_encoding='utf-8',
+                                  output_encoding='utf-8')
 	with open(path) as template_file:
 	    template_string = "".join(template_file.readlines())
         # Handle Markdown files with .md extension
@@ -38,7 +40,10 @@ class TemplateProcessor(object):
             template_string = markdown.markdown(template_string)
             out_filepath=os.path.splitext(out_filepath)[0] + ".html"
         # Process template
-	template = Template(template_string, lookup=template_lookup)
+	template = Template(template_string,
+                     lookup=template_lookup,
+                     input_encoding='utf-8',
+                     output_encoding='utf-8')
 	url_path = os.path.join(dirname, filename)
 	if url_path.startswith("."):
 	    url_path = url_path[1:]
