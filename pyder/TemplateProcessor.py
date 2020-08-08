@@ -54,7 +54,9 @@ class TemplateProcessor(object):
             }
         substitutions.update(self.variables)
         output = template.render(**substitutions)
-        self._write_out_file(out_filepath, output)
+        # utf-8 decoding from template.render() apparently
+        # not working, hence decode() here
+        self._write_out_file(out_filepath, output.decode())
 
     def _write_out_file(self, filename, contents):
         """Write contents to filename, creating directories as needed."""
