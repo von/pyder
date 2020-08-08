@@ -28,7 +28,7 @@ class GenerateCommand(CommandBase):
                          self.site_config["site_template_dir"]))
         self.debug("Template directory is {}".format(template_dir))
         variables = self.site_config["variables"] \
-            if self.site_config.has_key("variables") else {}
+            if "variables" in self.site_config else {}
         variables['base_url'] = self.base_url
         self.processor = TemplateProcessor(
             output_base=self.dest_dir,
@@ -47,7 +47,7 @@ class GenerateCommand(CommandBase):
 
     def handle_exception(self, ex):
         """Handle exceptions, particularly from Mako"""
-        print mako.exceptions.text_error_template().render()
+        print(mako.exceptions.text_error_template().render())
         return(1)
 
     def process_dir(self, dirname, filenames):
@@ -107,7 +107,7 @@ class GenerateCommand(CommandBase):
         try:
             # We pass config as locals so it doesn't get filled up
             # with python stuff.
-            execfile(config_filename, {}, config)
+            exec(compile(open(config_filename, "rb").read(), config_filename, 'exec'), {}, config)
         except Exception as ex:
             self.warning(
                 "Error processing configuration \"{}\": {}".format(
@@ -122,24 +122,21 @@ class GenerateCommand(CommandBase):
 
     def should_process(self, filename):
         """Should the given file be processed, based on 'process'?"""
-        if not self.site_config.has_key("process"):
+        if "process" not in self.site_config:
             return False
-        return any(map(lambda pattern: fnmatch.fnmatch(filename, pattern),
-                       self.site_config["process"]))
+        return any([fnmatch.fnmatch(filename, pattern) for pattern in self.site_config["process"]])
 
     def should_copy(self, filename):
         """Should the given file be processed, based on 'copy'?"""
-        if not self.site_config.has_key("copy"):
+        if "copy" not in self.site_config:
             return False
-        return any(map(lambda pattern: fnmatch.fnmatch(filename, pattern),
-                       self.site_config["copy"]))
+        return any([fnmatch.fnmatch(filename, pattern) for pattern in self.site_config["copy"]])
 
     def should_rename(self, filename):
         """Should the given file be rename, based on 'rename'?"""
-        if not self.site_config.has_key("rename"):
+        if "rename" not in self.site_config:
             return False
-        return any(map(lambda rename: filename == rename,
-                       self.site_config["rename"].keys()))
+        return any([filename == rename for rename in list(self.site_config["rename"].keys())])
 
     def _filter_dirs(self, dirnames):
         """Given a list of directory names, filter it in place.
@@ -148,8 +145,7 @@ class GenerateCommand(CommandBase):
         # Replace contents of list with filtered list
         # Kudos: http://stackoverflow.com/a/4639748/197789
         skip = lambda dirname: any(
-            map(lambda pattern: fnmatch.fnmatch(dirname, pattern),
-                self.site_config["dirs_to_skip"]))
+            [fnmatch.fnmatch(dirname, pattern) for pattern in self.site_config["dirs_to_skip"]])
         dirnames[:] = (dirname for dirname in dirnames
                        if not skip(dirname))
 

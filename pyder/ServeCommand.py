@@ -1,8 +1,8 @@
 """ServeCommand: Implements "serve" command"""
 
 import os
-import SimpleHTTPServer
-import SocketServer
+import http.server
+import socketserver
 
 from . import CommandBase
 
@@ -17,11 +17,11 @@ class ServeCommand(CommandBase):
                 self.args.dest_dir,
                 self.args.port))
         os.chdir(self.args.dest_dir)
-        handler = SimpleHTTPServer.SimpleHTTPRequestHandler
+        handler = http.server.SimpleHTTPRequestHandler
         # Allow quick reuse of port.
         # Kudos: http://stackoverflow.com/a/3137792/197789x
-        SocketServer.TCPServer.allow_reuse_address = True
-        server = SocketServer.TCPServer(("", self.args.port), handler)
+        socketserver.TCPServer.allow_reuse_address = True
+        server = socketserver.TCPServer(("", self.args.port), handler)
         server.serve_forever()
 
     @classmethod

@@ -1,2 +1,2 @@
-from CommandBase import CommandBase
-from TemplateProcessor import TemplateProcessor
+from .CommandBase import CommandBase
+from .TemplateProcessor import TemplateProcessor
